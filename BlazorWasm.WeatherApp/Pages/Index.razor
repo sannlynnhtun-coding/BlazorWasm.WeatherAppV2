@@ -1,9 +1,142 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<!--
+  - #HEADER
+-->
 
-Welcome to your new app.
+<header class="header">
+    <div class="container">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        <a href="#" class="logo">
+            <img src="./assets/images/logo.png" width="364" height="58" alt="logo">
+        </a>
+
+        <div class="search-view" data-search-view>
+
+            <div class="search-wrapper">
+                <input type="search" name="search" placeholder="Search city..." autocomplete="off" class="search-field"
+                       data-search-field>
+
+                <span class="m-icon leading-icon">search</span>
+
+                <button class="icon-btn leading-icon has-state" aria-label="close search" data-search-toggler>
+                    <span class="m-icon">arrow_back</span>
+                </button>
+            </div>
+
+            <div class="search-result" data-search-result></div>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button class="icon-btn has-state" aria-label="open search" data-search-toggler>
+                <span class="m-icon icon">search</span>
+            </button>
+
+            <a href="#/current-location" class="btn-primary has-state" data-current-location-btn>
+                <span class="m-icon">my_location</span>
+
+                <span class="span">Current Location</span>
+            </a>
+
+        </div>
+
+    </div>
+</header>
+
+
+
+
+
+<main>
+    <article class="container" data-container>
+
+        <div class="content-left">
+            <!--
+              - #CURRENT WEATHER
+            -->
+
+            <section class="section current-weather" aria-label="current weather" data-current-weather></section>
+
+
+
+
+
+            <!--
+              - #FORECAST
+            -->
+
+            <section class="section forecast" aria-labelledby="forecast-label" data-5-day-forecast></section>
+        </div>
+
+
+
+
+
+        <div class="content-right">
+            <!--
+              - #HIGHLIGHTS
+            -->
+
+            <section class="section highlights" aria-labelledby="highlights-label" data-highlights></section>
+
+
+
+
+
+            <!--
+              - #HOURLY FORECAST
+            -->
+
+            <section class="section hourly-forecast" aria-label="hourly forecast" data-hourly-forecast></section>
+
+
+
+
+
+            <!--
+              - #FOOTER
+            -->
+
+            <footer class="footer">
+                <p class="body-3">
+                    Copyright 2023 codewithsadee. All Rights Reserved.
+                </p>
+
+                <p class="body-3">
+                    Powered By <a href="https://openweathermap.org/api" title="Free OpenWeather Api" target="_blank"
+                                  rel="noopener">
+                        <img src="./assets/images/openweather.png" width="150" height="30" loading="lazy" alt="OpenWeather">
+                    </a>
+                </p>
+            </footer>
+        </div>
+
+        <div class="loading" data-loading></div>
+
+
+
+    </article>
+</main>
+
+
+
+
+
+<!--
+  - #404 SECTION
+-->
+
+<section class="error-content" data-error-content>
+
+    <h2 class="heading">404</h2>
+
+    <p class="body-1">Page not found!</p>
+
+    <a href="#/weather?lat=51.5073219&lon=-0.1276474" class="btn-primary">
+        <span class="span">Go Home</span>
+    </a>
+
+</section>
