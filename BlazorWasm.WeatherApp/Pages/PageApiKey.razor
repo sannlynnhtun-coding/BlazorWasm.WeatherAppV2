@@ -1,0 +1,39 @@
+@using BlazorWasm.WeatherApp.Models
+@inject ISnackbar Snackbar
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Key" Class="mr-3 mb-n1"/>
+            Input Open Weather Api Key
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="ApiKey.AppId" Label="Api Key"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Success" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private ApiKeyModel ApiKey { get; set; } = new ApiKeyModel();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task Save()
+    {
+        Snackbar.Add("Saved", Severity.Success);
+        if (!string.IsNullOrEmpty(ApiKey.AppId))
+            await SessionStorage.SetItemAsync("apiKey", ApiKey.AppId);
+        MudDialog.Close(DialogResult.Ok(ApiKey));
+    }
+
+}

@@ -1,0 +1,129 @@
+﻿@page "/"
+@inject IGeolocationService GeolocationService
+<!--
+- #HEADER
+-->
+
+<header class="header">
+    <div class="container">
+
+        <NavLink href="s" class="logo">
+            <img src="./assets/images/logo.png" width="364" height="58" alt="logo">
+        </NavLink>
+
+        <div class="search-view @(toggleSearch ? "active" : "")" data-search-view>
+
+            <div class="search-wrapper">
+                <input type="search" name="search" placeholder="Search city..." autocomplete="off" class="search-field"
+                       data-search-field>
+
+                <span class="m-icon leading-icon">search</span>
+
+                <button @onclick="ToggleSearch" class="icon-btn leading-icon has-state" aria-label="close search" data-search-toggler>
+                    <span class="m-icon">arrow_back</span>
+                </button>
+            </div>
+
+            <div class="search-result" data-search-result></div>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button @onclick="ToggleSearch" class="icon-btn has-state" aria-label="open search" data-search-toggler>
+                <span class="m-icon icon">search</span>
+            </button>
+
+            <a href="javascript:void(0);" class="btn-primary has-state" data-current-location-btn>
+                <span class="m-icon">my_location</span>
+
+                <span class="span">Current Location</span>
+            </a>
+
+        </div>
+
+    </div>
+</header>
+
+
+<main>
+    <article class="container" data-container>
+
+        <div class="content-left">
+            <!--
+            - #CURRENT WEATHER
+            -->
+
+            <section class="section current-weather" aria-label="current weather" data-current-weather>
+                @if (_currentWeather != null)
+                {
+                    <div class="card card-lg current-weather-card">
+                        <h2 class="title-2 card-title">Now</h2>
+
+                        <div class="weapper">
+                            <p class="heading">@(_currentWeather.main.temp)&deg;<sup>c</sup></p>
+
+                            <img src="assets/images/weather_icons/@(_currentWeather.weather[0].icon).png" width="64" height="64" 
+                                 alt="@(_currentWeather.weather[0].description)"
+                                 class="weather-icon">
+                        </div>
+
+                        <p class="body-3">@(_currentWeather.weather[0].description)</p>
+
+                        <ul class="meta-list">
+
+                            <li class="meta-item">
+                                <span class="m-icon">calendar_today</span>
+
+                                <p class="title-3 meta-text">
+                                    @{
+                                        int dt = Convert.ToInt32(_currentWeather.dt);
+                                        int timezone = Convert.ToInt32(_currentWeather.timezone);
+                                        DateTime dateTime = new DateTime((dt + timezone) * 1000);
+                                        string date = $"{dateTime.ToString("dddd")} {dateTime.ToString("dd")}, {dateTime.ToString("MMM")}";
+                                    }
+                                    @date
+                                </p>
+                            </li>
+
+                            <li class="meta-item">
+                                <span class="m-icon">location_on</span>
+
+                                <p class="title-3 meta-text" data-location></p>
+                            </li>
+
+                        </ul>
+                    </div>
+                }
+            </section>
+
+
+            <!--
+            - #FORECAST
+            -->
+
+            <section class="section forecast" aria-labelledby="forecast-label" data-5-day-forecast></section>
+        </div>
+
+
+        <div class="content-right">
+            <!--
+            - #HIGHLIGHTS
+            -->
+
+            <section class="section highlights" aria-labelledby="highlights-label" data-highlights></section>
+
+
+            <!--
+            - #HOURLY FORECAST
+            -->
+
+            <section class="section hourly-forecast" aria-label="hourly forecast" data-hourly-forecast></section>
+
+
+            <PageFooter/>
+        </div>
+        <PageLoading></PageLoading>
+    </article>
+</main>
+<Page404/>
