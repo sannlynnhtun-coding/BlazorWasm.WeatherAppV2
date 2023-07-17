@@ -14,5 +14,6 @@ builder.Services.AddMudServices();
 builder.Services.AddGeolocationServices();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped<ICurrentWeatherService>();
+builder.Services.AddScoped<IFiveDaysForecastService>();
 
 await builder.Build().RunAsync();

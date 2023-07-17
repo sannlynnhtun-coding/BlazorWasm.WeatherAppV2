@@ -1,0 +1,53 @@
+﻿@using BlazorWasm.WeatherApp.Models
+<!--
+- #CURRENT WEATHER
+-->
+
+<section class="section current-weather" aria-label="current weather" data-current-weather>
+    @if (Data != null)
+    {
+        <div class="card card-lg current-weather-card">
+            <h2 class="title-2 card-title">Now</h2>
+
+            <div class="weapper">
+                <p class="heading">@(Convert.ToInt32(Data.main.temp))&deg;<sup>c</sup></p>
+
+                <img src="assets/images/weather_icons/@(Data.weather[0].icon).png" width="64" height="64"
+                     alt="@(Data.weather[0].description)"
+                     class="weather-icon">
+            </div>
+
+            <p class="body-3">@(Data.weather[0].description)</p>
+
+            <ul class="meta-list">
+
+                <li class="meta-item">
+                    <span class="m-icon">calendar_today</span>
+
+                    <p class="title-3 meta-text">
+                        @{
+                            DateTime dateTime = Data.dt.GetUtcDateTime(Data.timezone);
+                            string date = $"{dateTime.ToString("dddd")} {dateTime.ToString("dd")}, {dateTime.ToString("MMM")}";
+                        }
+                        @date
+                    </p>
+                </li>
+
+                <li class="meta-item">
+                    <span class="m-icon">location_on</span>
+
+                    <p class="title-3 meta-text" data-location>
+                        @Data.name, @Data.sys.country
+                    </p>
+                </li>
+
+            </ul>
+        </div>
+    }
+</section>
+@code{
+
+    [Parameter]
+    public CurrentWeather? Data { get; set; }
+
+}

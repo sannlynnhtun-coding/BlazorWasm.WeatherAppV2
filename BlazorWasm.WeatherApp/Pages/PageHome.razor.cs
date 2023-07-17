@@ -9,8 +9,9 @@ public partial class PageHome
 {
     private double _latitude;
     private double _longitude;
-    private bool toggleSearch = false;
-    private CurrentWeather _currentWeather;
+    private bool _toggleSearch;
+    private CurrentWeather? _currentWeather;
+    private FiveDayForecast? _fiveDayForecast;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -26,9 +27,19 @@ public partial class PageHome
             if (!result.Canceled)
             {
                 var apiKeyModel = result.Data as ApiKeyModel;
-                if (apiKeyModel.AppId != null && !string.IsNullOrEmpty(apiKeyModel.AppId))
-                    _currentWeather = await CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                StateHasChanged();
+                if (apiKeyModel is { AppId: not null } && !string.IsNullOrEmpty(apiKeyModel.AppId))
+                {
+                    var taskCurrentWeather = CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
+                    var taskFiveDaysForecast =
+                        FiveDaysForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
+
+                    await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast);
+
+                    _currentWeather = taskCurrentWeather.Result;
+                    _fiveDayForecast = taskFiveDaysForecast.Result;
+
+                    StateHasChanged();
+                }
             }
         }
     }
@@ -54,6 +65,6 @@ public partial class PageHome
 
     void ToggleSearch()
     {
-        toggleSearch = !toggleSearch;
+        _toggleSearch = !_toggleSearch;
     }
 }

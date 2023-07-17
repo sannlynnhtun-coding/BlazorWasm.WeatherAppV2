@@ -14,7 +14,7 @@ public class ICurrentWeatherService
         _httpClient = httpClient;
     }
 
-    public async Task<CurrentWeather> GetAsync(string appId, double lat, double lon)
+    public async Task<CurrentWeather?> GetAsync(string appId, double lat, double lon)
     {
         string requestUrl =
             $"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={appId}";
