@@ -52,8 +52,10 @@
                 </div>
                 @{
                     var aqi = aqiTextService.GetAqiText(AQI.ToString());
-                    DateTime sunrise = CWeatherData.sys.sunrise.GetUtcDateTime(CWeatherData.timezone);
-                    DateTime sunset = CWeatherData.sys.sunset.GetUtcDateTime(CWeatherData.timezone);
+                    DateTime sunrise = DateTimeOffset.FromUnixTimeSeconds(CWeatherData.sys.sunrise).LocalDateTime;
+                    DateTime sunset = DateTimeOffset.FromUnixTimeSeconds(CWeatherData.sys.sunset).LocalDateTime;
+                    //DateTime sunrise = CWeatherData.sys.sunrise.GetUtcDateTime(CWeatherData.timezone);
+                    //DateTime sunset = CWeatherData.sys.sunset.GetUtcDateTime(CWeatherData.timezone);
                 }
                 <span class="badge aqi-@AQI label-@AQI" title="@aqi.message">
                     @aqi.level
