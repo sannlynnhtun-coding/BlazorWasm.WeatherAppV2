@@ -15,7 +15,7 @@ namespace BlazorWasm.WeatherApp.Services
         public async Task<TodayHightlights?> GetAsync(string appId, double lat, double lon)
         {
             string requestUrl =
-                $"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={appId}";
+                $"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={appId}";
             var response = await _httpClient.GetFromJsonAsync<TodayHightlights>(requestUrl);
             return response;
         }

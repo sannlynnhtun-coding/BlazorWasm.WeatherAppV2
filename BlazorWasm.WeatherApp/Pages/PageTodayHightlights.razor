@@ -52,6 +52,8 @@
                 </div>
                 @{
                     var aqi = aqiTextService.GetAqiText(AQI.ToString());
+                    DateTime sunrise = CWeatherData.sys.sunrise.GetUtcDateTime(CWeatherData.timezone);
+                    DateTime sunset = CWeatherData.sys.sunset.GetUtcDateTime(CWeatherData.timezone);
                 }
                 <span class="badge aqi-@AQI label-@AQI" title="@aqi.message">
                     @aqi.level
@@ -71,7 +73,7 @@
                         <div>
                             <p class="label-1">Sunrise</p>
 
-                            <p class="title-1">${module.getTime(sunriseUnixUTC, timezone)}</p>
+                            <p class="title-1">@(sunrise.ToString("hh:mm tt"))</p>
                         </div>
                     </div>
 
@@ -81,7 +83,7 @@
                         <div>
                             <p class="label-1">Sunset</p>
 
-                            <p class="title-1">${module.getTime(sunsetUnixUTC, timezone)}</p>
+                            <p class="title-1">@(sunset.ToString("hh:mm tt"))</p>
                         </div>
                     </div>
 

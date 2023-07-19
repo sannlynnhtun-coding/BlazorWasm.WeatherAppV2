@@ -15,6 +15,6 @@ builder.Services.AddGeolocationServices();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped<ICurrentWeatherService>();
 builder.Services.AddScoped<IFiveDaysForecastService>();
-builder.Services.AddScoped<ITodayHightlightsService>();
+builder.Services.AddTransient<ITodayHightlightsService>();
 
 await builder.Build().RunAsync();
