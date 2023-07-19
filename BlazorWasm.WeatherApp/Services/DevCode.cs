@@ -1,4 +1,6 @@
-﻿namespace BlazorWasm.WeatherApp.Services;
+﻿using Newtonsoft.Json;
+
+namespace BlazorWasm.WeatherApp.Services;
 
 public static class DevCode
 {
@@ -8,5 +10,10 @@ public static class DevCode
         long timezoneStr = Convert.ToInt64(timezone);
         DateTime dateTime = new DateTime((dtStr + timezoneStr) * 1000);
         return dateTime;
+    }
+
+    public static T ToObject<T>(this string json)
+    {
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }

@@ -12,6 +12,7 @@ public partial class PageHome
     private bool _toggleSearch;
     private CurrentWeather? _currentWeather;
     private FiveDayForecast? _fiveDayForecast;
+    private TodayHightlights? _todayHightlights;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -29,14 +30,18 @@ public partial class PageHome
                 var apiKeyModel = result.Data as ApiKeyModel;
                 if (apiKeyModel is { AppId: not null } && !string.IsNullOrEmpty(apiKeyModel.AppId))
                 {
-                    var taskCurrentWeather = CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
+                    var taskCurrentWeather = 
+                        CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
                     var taskFiveDaysForecast =
                         FiveDaysForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-
-                    await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast);
+                    var takTodayHightligths =
+                        TodayHightlightsService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
+                    await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast,
+                        takTodayHightligths);
 
                     _currentWeather = taskCurrentWeather.Result;
                     _fiveDayForecast = taskFiveDaysForecast.Result;
+                    _todayHightlights = takTodayHightligths.Result;
 
                     StateHasChanged();
                 }

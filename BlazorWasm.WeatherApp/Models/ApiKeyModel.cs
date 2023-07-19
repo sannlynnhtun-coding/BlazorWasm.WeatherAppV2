@@ -107,3 +107,38 @@ public class City
     public int sunset { get; set; }
 }
 
+public class TodayHightlights
+{
+    public Coord coord { get; set; }
+    public List<List> list { get; set; } 
+}
+
+public class List
+{
+    public MainAqi main { get; set; }
+    public Components components { get; set; }
+    public int dt { get; set; }
+}
+public class Components
+{
+    public double co { get; set; }
+    public double no { get; set; }
+    public double no2 { get; set; }
+    public double o3 { get; set; }
+    public double so2 { get; set; }
+    public double pm2_5 { get; set; }
+    public double pm10 { get; set; }
+    public double nh3 { get; set; }
+}
+public class MainAqi
+{
+    public int aqi { get; set; }
+}
+
+
+public class AqiTextModel
+{
+    public string id { get; set; }
+    public string level { get; set; }
+    public string message { get; set; }
+}
