@@ -35,17 +35,14 @@ public partial class PageHome
                         CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
                     var taskFiveDaysForecast =
                         FiveDaysForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    var takTodayHightligths =
-                        TodayHightlightsService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    var takTodayForecast =
-                        TodayForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
+                    var takTodayHighlights =
+                        TodayHighlightsService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
                     await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast,
-                        takTodayHightligths, takTodayForecast);
+                        takTodayHighlights);
 
                     _currentWeather = taskCurrentWeather.Result;
                     _fiveDayForecast = taskFiveDaysForecast.Result;
-                    _todayHightlights = takTodayHightligths.Result;
-                    _todayForecast = takTodayForecast.Result;
+                    _todayHightlights = takTodayHighlights.Result;
 
                     StateHasChanged();
                 }
