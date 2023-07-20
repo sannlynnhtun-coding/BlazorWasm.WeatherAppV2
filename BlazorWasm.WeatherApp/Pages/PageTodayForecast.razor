@@ -1,0 +1,30 @@
+﻿@using BlazorWasm.WeatherApp.Models;
+@if (Data is not null)
+{
+    <h2 class="title-2">Today at</h2>
+
+    <div class="slider-container">
+        <ul class="slider-list" data-temp>
+            @foreach (var item in Data.list)
+            {
+                @*DateTime datetime = DateTimeOffset.FromUnixTimeSeconds(item.dt).LocalDateTime;*@
+                <li class="slider-item">
+                    <p class="body-3">${module.getHours(dateTimeUnix, timezone)}</p>
+
+                    <img src="./assets/images/weather_icons/${icon}.png" width="48" height="48" loading="lazy" alt="${description}"
+                         class="weather-icon" title="${description}">
+
+                    <p class="body-3">${parseInt(temp)}&deg;</p>
+                    <div class="card card-sm slider-card">
+                        <p class="body-3">@(item.main.temp)&deg;</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public TodayForecast? Data { get; set; }
+}

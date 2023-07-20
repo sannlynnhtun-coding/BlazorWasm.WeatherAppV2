@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace BlazorWasm.WeatherApp.Models;
 
 public class ApiKeyModel
@@ -110,7 +112,7 @@ public class City
 public class TodayHightlights
 {
     public Coord coord { get; set; }
-    public List<List> list { get; set; } 
+    public List<List> list { get; set; }
 }
 
 public class List
@@ -135,10 +137,50 @@ public class MainAqi
     public int aqi { get; set; }
 }
 
-
 public class AqiTextModel
 {
     public string id { get; set; }
     public string level { get; set; }
     public string message { get; set; }
 }
+
+public class ListToday
+{
+    public int dt { get; set; }
+    public Main main { get; set; }
+    public List<Weather> weather { get; set; }
+    public Clouds clouds { get; set; }
+    public Wind wind { get; set; }
+    public int visibility { get; set; }
+    public double pop { get; set; }
+    public SysToday sys { get; set; }
+    public string dt_txt { get; set; }
+    public Rain rain { get; set; }
+}
+
+public class MainToday : Main
+{
+    public int sea_level { get; set; }
+    public int grnd_level { get; set; }
+    public double temp_kf { get; set; }
+}
+
+public class TodayForecast
+{
+    public string cod { get; set; }
+    public int message { get; set; }
+    public int cnt { get; set; }
+    public List<ListToday> list { get; set; }
+    public City city { get; set; }
+}
+
+public class SysToday
+{
+    public string pod { get; set; }
+}
+
+public class WindToday : Wind
+{
+    public double gust { get; set; }
+}
+
