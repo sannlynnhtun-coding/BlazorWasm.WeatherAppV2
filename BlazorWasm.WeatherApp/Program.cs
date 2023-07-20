@@ -13,8 +13,8 @@ builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddMudServices();
 builder.Services.AddGeolocationServices();
 builder.Services.AddBlazoredSessionStorage();
-builder.Services.AddScoped<ICurrentWeatherService>();
-builder.Services.AddScoped<IFiveDaysForecastService>();
-builder.Services.AddTransient<ITodayHightlightsService>();
+builder.Services.AddScoped<ICurrentWeatherService, CurrentWeatherService>();
+builder.Services.AddScoped<IFiveDaysForecastService, FiveDaysForecastService>();
+builder.Services.AddTransient<ITodayHighlightsService, TodayHighlightsService>();
 
 await builder.Build().RunAsync();

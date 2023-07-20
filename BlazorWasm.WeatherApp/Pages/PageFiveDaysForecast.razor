@@ -6,36 +6,49 @@
 
         <div class="card card-lg forecast-card">
             <ul data-forecast-list="">
-                @for (int i = 7, len = Data.list.Length; i < Data.list.Length; i += 8)
+                @{
+                    var lst = Data.list.Select(x => 
+                        x.dt_txt.ToDateTimeForWeather()
+                        .ToString("yyyy-MM-dd"))
+                        .Distinct()
+                        .ToList();
+                }
+                @foreach (var group in lst)
                 {
-                    var item = Data.list[i];
-                    var weatherIcon = item.weather[0].icon;
-                    var weatherDescription = item.weather[0].description;
-                    DateTime dateTime = item.dt.GetUtcDateTime(Data.city.timezone);
-                    <li class="card-item">
-                        <div class="icon-wrapper">
-                            <img src="assets/images/weather_icons/@(weatherIcon).png" 
-                                 width="36" 
-                                 height="36" 
-                                 alt="@weatherDescription" 
-                                 class="weather-icon" 
-                                 title="@weatherDescription">
-                            <span class="span">
-                                <p class="title-2">
-                                    @(Convert.ToInt32(item.main.temp_max))&deg;
-                                </p>
-                            </span>
-                        </div>
-                        <p class="label-1">
-                            @(dateTime.ToString("dd MMM"))
-                        </p>
-                        <p class="label-1">@dateTime.ToString("dddd")</p>
-                    </li>
+                    var item = Data.list.FirstOrDefault(x =>
+                        x.dt_txt.ToDateTimeForWeather()
+                            .ToString("yyyy-MM-dd") == group);
+                    if (item is not null)
+                    {
+                        var weatherIcon = item.weather[0].icon;
+                        var weatherDescription = item.weather[0].description;
+                        DateTime dateTime = item.dt_txt.ToDateTimeForWeather();
+                        <li class="card-item">
+                            <div class="icon-wrapper">
+                                <img src="assets/images/weather_icons/@(weatherIcon).png"
+                                     width="36"
+                                     height="36"
+                                     alt="@weatherDescription"
+                                     class="weather-icon"
+                                     title="@weatherDescription">
+                                <span class="span">
+                                    <p class="title-2">
+                                        @(Convert.ToInt32(item.main.temp_max))&deg;
+                                    </p>
+                                </span>
+                            </div>
+                            <p class="label-1">
+                                @(dateTime.ToString("dd MMM"))
+                            </p>
+                            <p class="label-1">@dateTime.ToString("dddd")</p>
+                        </li>
+                    }
                 }
             </ul>
         </div>
     </section>
 }
+
 @code{
 
     [Parameter]
