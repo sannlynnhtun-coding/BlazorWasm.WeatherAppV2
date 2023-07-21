@@ -136,6 +136,7 @@ public partial class PageHome
                 && !string.IsNullOrEmpty(apiKeyModel.AppId))
             {
                 await Db.SetApiKey(apiKeyModel);
+                _apiKey = apiKeyModel;
                 await WeatherTasks();
             }
         }
