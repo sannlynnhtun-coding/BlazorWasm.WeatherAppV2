@@ -1,5 +1,7 @@
+using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using BlazorWasm.WeatherApp;
+using BlazorWasm.WeatherApp.Pages;
 using BlazorWasm.WeatherApp.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,5 +19,7 @@ builder.Services.AddScoped<ICurrentWeatherService, CurrentWeatherService>();
 builder.Services.AddScoped<IFiveDaysForecastService, FiveDaysForecastService>();
 builder.Services.AddTransient<ITodayHighlightsService, TodayHighlightsService>();
 builder.Services.AddTransient<ITodayForecastService, TodayForecastService>();
+builder.Services.AddBlazoredLocalStorageAsSingleton();
+builder.Services.AddScoped<IDbService, LocalStorageService>();
 
 await builder.Build().RunAsync();

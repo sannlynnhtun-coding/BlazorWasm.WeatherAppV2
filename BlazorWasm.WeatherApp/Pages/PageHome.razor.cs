@@ -3,8 +3,9 @@ using MudBlazor;
 
 namespace BlazorWasm.WeatherApp.Pages;
 
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using Microsoft.JSInterop;
-
 public partial class PageHome
 {
     private double _latitude;
@@ -40,7 +41,7 @@ public partial class PageHome
                     var takTodayForecast =
                         TodayForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
                     await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast,
-                        takTodayHighlights,takTodayForecast);
+                        takTodayHighlights, takTodayForecast);
 
                     _currentWeather = taskCurrentWeather.Result;
                     _fiveDayForecast = taskFiveDaysForecast.Result;
@@ -75,5 +76,10 @@ public partial class PageHome
     void ToggleSearch()
     {
         _toggleSearch = !_toggleSearch;
+    }
+
+    async Task ShowApi()
+    {
+        
     }
 }

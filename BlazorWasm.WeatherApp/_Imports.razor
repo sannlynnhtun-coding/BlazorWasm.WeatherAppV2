@@ -10,9 +10,12 @@
 @using BlazorWasm.WeatherApp.Services
 @using BlazorWasm.WeatherApp.Shared
 @using MudBlazor
+@using Blazored.Modal
 @inject Blazored.SessionStorage.ISessionStorageService SessionStorage
 @inject IDialogService DialogService
 @inject ICurrentWeatherService CurrentWeatherService
 @inject IFiveDaysForecastService FiveDaysForecastService
 @inject ITodayHighlightsService TodayHightlightsService
 @inject ITodayForecastService TodayForecastService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject IDbService db

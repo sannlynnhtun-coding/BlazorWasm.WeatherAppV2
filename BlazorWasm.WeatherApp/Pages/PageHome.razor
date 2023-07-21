@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IGeolocationService GeolocationService
+
 <!--
 - #HEADER
 -->
@@ -25,6 +26,16 @@
             </div>
 
             <div class="search-result" data-search-result></div>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button @onclick="ShowApi" class="btn-primary has-state" data-current-location-btn>
+                <span class="m-icon">my_location</span>
+
+                <span class="span">API</span>
+            </button>
 
         </div>
 
