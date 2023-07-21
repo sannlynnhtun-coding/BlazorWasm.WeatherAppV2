@@ -22,13 +22,15 @@ namespace BlazorWasm.WeatherApp.Pages
         {
             var GetKey = await _service.GetItemAsync<List<ApiKeyModel>>("ApiKey");
             GetKey ??= new();
-            if(GetKey == null || GetKey.Count > 0) 
+            IEnumerable<string> EnumAppId = GetKey.Select(x => x.AppId);
+            string AppId = string.Join("", EnumAppId);
+            if (GetKey == null || GetKey.Count == 0) 
             {
                 GetKey.Add(api);            
             }
             else
             {
-                var result =  GetKey.FirstOrDefault(x=> x.AppId == api.AppId);
+                var result =  GetKey.FirstOrDefault(x=> x.AppId == AppId);
                 int index = GetKey.FindIndex(x=> x.AppId == result.AppId);
                 GetKey[index] = api;
             }

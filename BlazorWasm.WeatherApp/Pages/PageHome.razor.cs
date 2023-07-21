@@ -5,7 +5,10 @@ namespace BlazorWasm.WeatherApp.Pages;
 
 using Blazored.Modal;
 using Blazored.Modal.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using static MudBlazor.CategoryTypes;
+
 public partial class PageHome
 {
     private double _latitude;
@@ -23,36 +26,23 @@ public partial class PageHome
             GeolocationService.GetCurrentPosition(this,
                 nameof(OnCoordinatesPermitted),
                 nameof(OnErrorRequestingCoordinates));
-            DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
-            var dialog = await DialogService.ShowAsync<PageApiKey>("Input Open Weather Api Key", maxWidth);
-            var result = await dialog.Result;
 
-            if (!result.Canceled)
+            var GetApiKey = await db.GetApiKey();
+            IEnumerable<string> EnumAppId = GetApiKey.Select(x => x.AppId);
+            string AppId = string.Join("", EnumAppId);
+
+            if (GetApiKey == null || GetApiKey.Count == 0)
             {
-                var apiKeyModel = result.Data as ApiKeyModel;
-                if (apiKeyModel is { AppId: not null } && !string.IsNullOrEmpty(apiKeyModel.AppId))
-                {
-                    var taskCurrentWeather =
-                        CurrentWeatherService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    var taskFiveDaysForecast =
-                        FiveDaysForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    var takTodayHighlights =
-                        TodayHightlightsService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    var takTodayForecast =
-                        TodayForecastService.GetAsync(apiKeyModel.AppId, _latitude, _longitude);
-                    await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast,
-                        takTodayHighlights, takTodayForecast);
-
-                    _currentWeather = taskCurrentWeather.Result;
-                    _fiveDayForecast = taskFiveDaysForecast.Result;
-                    _todayHightlights = takTodayHighlights.Result;
-                    _todayForecast = takTodayForecast.Result;
-
-                    StateHasChanged();
-                }
+                await DialogBox();
+            }
+            else
+            {
+                await Task.Delay(3000);
+                await WeatherTasks(AppId);
             }
         }
     }
+    
 
     [JSInvokable]
     public async Task OnCoordinatesPermitted(
@@ -80,6 +70,43 @@ public partial class PageHome
 
     async Task ShowApi()
     {
-        
+        await DialogBox();
+    }
+    public async Task WeatherTasks(string AppId)
+    {
+        var taskCurrentWeather =
+                            CurrentWeatherService.GetAsync(AppId, _latitude, _longitude);
+        var taskFiveDaysForecast =
+            FiveDaysForecastService.GetAsync(AppId, _latitude, _longitude);
+        var takTodayHighlights =
+            TodayHightlightsService.GetAsync(AppId, _latitude, _longitude);
+        var takTodayForecast =
+            TodayForecastService.GetAsync(AppId, _latitude, _longitude);
+        await Task.WhenAll(taskCurrentWeather, taskFiveDaysForecast,
+            takTodayHighlights, takTodayForecast);
+
+        _currentWeather = taskCurrentWeather.Result;
+        _fiveDayForecast = taskFiveDaysForecast.Result;
+        _todayHightlights = takTodayHighlights.Result;
+        _todayForecast = takTodayForecast.Result;
+
+        StateHasChanged();
+    }
+
+    public async Task DialogBox()
+    {
+        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<PageApiKey>("Input Open Weather Api Key", maxWidth);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var apiKeyModel = result.Data as ApiKeyModel;
+            if (apiKeyModel is { AppId: not null } && !string.IsNullOrEmpty(apiKeyModel.AppId))
+            {
+                await db.SetApiKey(apiKeyModel);
+                await WeatherTasks(apiKeyModel.AppId);
+            }
+        }
     }
 }

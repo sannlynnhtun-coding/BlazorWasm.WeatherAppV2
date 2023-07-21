@@ -23,6 +23,14 @@
 
     private ApiKeyModel ApiKey { get; set; } = new ApiKeyModel();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var GetApi = await db.GetApiKey();
+        foreach (var item in GetApi)
+        {
+            ApiKey = item;
+        }
+    }
     private void Cancel()
     {
         MudDialog.Cancel();
