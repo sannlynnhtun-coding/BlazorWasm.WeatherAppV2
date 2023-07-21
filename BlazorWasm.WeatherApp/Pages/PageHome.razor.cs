@@ -57,16 +57,9 @@ public partial class PageHome
     {
         try
         {
-            // TODO: consume/handle position.
             _latitude = position.Coords.Latitude;
             _longitude = position.Coords.Longitude;
-            // if (_apiKey != null) await WeatherTasks(_apiKey.AppId);
             await InvokeAsync(StateHasChanged);
-
-            // await Task.Delay(3000);
-            // if (_apiKey != null) await WeatherTasks(_apiKey.AppId);
-
-            // await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {
@@ -80,15 +73,10 @@ public partial class PageHome
     {
         try
         {
-            // TODO: consume/handle error.
-            // _latitude = 16.7984;
-            // _longitude = 96.1496;
             _latitude = 21.9588;
             _longitude = 96.0891;
 
             await InvokeAsync(StateHasChanged);
-            // await Task.Delay(3000);
-            // if (_apiKey != null) await WeatherTasks(_apiKey.AppId);
         }
         catch (Exception ex)
         {
