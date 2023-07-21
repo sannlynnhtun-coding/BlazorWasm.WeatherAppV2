@@ -59,6 +59,7 @@ public partial class PageHome
         {
             _latitude = position.Coords.Latitude;
             _longitude = position.Coords.Longitude;
+            IsCurrentLocation = true;
             await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
@@ -75,6 +76,7 @@ public partial class PageHome
         {
             _latitude = 21.9588;
             _longitude = 96.0891;
+            IsCurrentLocation = false;
 
             await InvokeAsync(StateHasChanged);
         }
@@ -155,6 +157,7 @@ public partial class PageHome
     {
         _latitude = cityInfo.lat;
         _longitude = cityInfo.lon;
+        IsCurrentLocation = false;
         await WeatherTasks();
     }
 }
