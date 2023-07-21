@@ -19,6 +19,7 @@ builder.Services.AddScoped<ICurrentWeatherService, CurrentWeatherService>();
 builder.Services.AddScoped<IFiveDaysForecastService, FiveDaysForecastService>();
 builder.Services.AddTransient<ITodayHighlightsService, TodayHighlightsService>();
 builder.Services.AddTransient<ITodayForecastService, TodayForecastService>();
+builder.Services.AddTransient<IGeoCityService, GeoCityService>();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddScoped<IDbService, LocalStorageService>();
 

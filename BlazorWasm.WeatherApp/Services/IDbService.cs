@@ -4,7 +4,7 @@ namespace BlazorWasm.WeatherApp.Services
 {
     public interface IDbService
     {
-        Task<List<ApiKeyModel>> GetApiKey();
+        Task<ApiKeyModel?> GetApiKey();
         Task SetApiKey(ApiKeyModel api);
     }
 }

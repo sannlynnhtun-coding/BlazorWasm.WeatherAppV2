@@ -12,30 +12,14 @@ namespace BlazorWasm.WeatherApp.Pages
             _service = service;
         }
 
-        public async Task<List<ApiKeyModel>> GetApiKey()
+        public async Task<ApiKeyModel?> GetApiKey()
         {
-            var GetKey = await _service.GetItemAsync<List<ApiKeyModel>>("ApiKey");
-            GetKey ??= new();
-            return GetKey;
+            var apiKey = await _service.GetItemAsync<ApiKeyModel?>("ApiKey");
+            return apiKey;
         }
-        public async Task SetApiKey(ApiKeyModel api)
+        public async Task SetApiKey(ApiKeyModel apiKey)
         {
-            var GetKey = await _service.GetItemAsync<List<ApiKeyModel>>("ApiKey");
-            GetKey ??= new();
-            IEnumerable<string> EnumAppId = GetKey.Select(x => x.AppId);
-            string AppId = string.Join("", EnumAppId);
-            if (GetKey == null || GetKey.Count == 0) 
-            {
-                GetKey.Add(api);            
-            }
-            else
-            {
-                var result =  GetKey.FirstOrDefault(x=> x.AppId == AppId);
-                int index = GetKey.FindIndex(x=> x.AppId == result.AppId);
-                GetKey[index] = api;
-            }
-
-            await _service.SetItemAsync("ApiKey", GetKey);
+            await _service.SetItemAsync("ApiKey", apiKey);
         }
     }
 }

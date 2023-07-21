@@ -4,6 +4,6 @@ namespace BlazorWasm.WeatherApp.Services
 {
     public interface ITodayHighlightsService
     {
-        Task<TodayHightlights?> GetAsync(string appId, double lat, double lon);
+        Task<TodayHighlights?> GetAsync(string appId, double lat, double lon);
     }
 }

@@ -19,21 +19,19 @@
 @code {
 
     [CascadingParameter]
-    MudDialogInstance MudDialog { get; set; }
+    MudDialogInstance? MudDialog { get; set; }
 
     private ApiKeyModel ApiKey { get; set; } = new ApiKeyModel();
 
     protected override async Task OnInitializedAsync()
     {
-        var GetApi = await db.GetApiKey();
-        foreach (var item in GetApi)
-        {
-            ApiKey = item;
-        }
+        var apiKey = await Db.GetApiKey();
+        if (apiKey is not null)
+            ApiKey = apiKey;
     }
     private void Cancel()
     {
-        MudDialog.Cancel();
+        MudDialog?.Cancel();
     }
 
     private async Task Save()
@@ -41,7 +39,7 @@
         Snackbar.Add("Saved", Severity.Success);
         if (!string.IsNullOrEmpty(ApiKey.AppId))
             await SessionStorage.SetItemAsync("apiKey", ApiKey.AppId);
-        MudDialog.Close(DialogResult.Ok(ApiKey));
+        MudDialog?.Close(DialogResult.Ok(ApiKey));
     }
 
 }

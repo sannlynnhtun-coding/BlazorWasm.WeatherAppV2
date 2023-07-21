@@ -15,7 +15,10 @@
         <div class="search-view @(_toggleSearch ? "active" : "")" data-search-view>
 
             <div class="search-wrapper">
-                <input type="search" name="search" placeholder="Search city..." autocomplete="off" class="search-field"
+                <input type="search" name="search"
+                       @bind-value="_search" @bind-value:event="oninput"
+                       @onkeypress="HandelKeyPress"
+                       placeholder="Search city..." autocomplete="off" class="search-field @(_isSearching ? "searching" : "")"
                        data-search-field>
 
                 <span class="m-icon leading-icon">search</span>
@@ -25,17 +28,28 @@
                 </button>
             </div>
 
-            <div class="search-result" data-search-result></div>
-
-        </div>
-
-        <div class="header-actions">
-
-            <button @onclick="ShowApi" class="btn-primary has-state" data-current-location-btn>
-                @*<span class="m-icon">my_location</span>*@
-
-                <span class="span">Change API Key</span>
-            </button>
+            <div class="search-result @(_cityInfos is null || _cityInfos.Length == 0 ? "" : "active")" data-search-result>
+                <ul class="view-list" data-search-list="">
+                    @if (_cityInfos is not null && _cityInfos.Length > 0)
+                    {
+                        @foreach (var cityInfo in _cityInfos)
+                        {
+                            <li class="view-item">
+                                <span class="m-icon">location_on</span>
+                                <div>
+                                    <p class="item-title">@cityInfo.name</p>
+                                    <p class="label-2 item-subtitle">@cityInfo.state</p>
+                                </div>
+                                <a href="javascript:void(0);"
+                                   @onclick="() => FindLocation(cityInfo)"
+                                   class="item-link has-state" aria-label="@cityInfo.name weather"
+                                   data-search-toggler="">
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
 
         </div>
 
@@ -45,12 +59,28 @@
                 <span class="m-icon icon">search</span>
             </button>
 
-            <a href="javascript:void(0);" class="btn-primary has-state" data-current-location-btn>
-                <span class="m-icon">my_location</span>
-
-                <span class="span">Current Location</span>
-            </a>
-
+            <button @onclick="ShowApi" class="btn-primary has-state" data-current-location-btn>
+                <span class="m-icon">key</span>
+                <span class="span">Change API Key</span>
+            </button>
+            @{
+                if (CurrentLocationButtonDisabled == "disabled")
+                {
+                    <a href="javascript:void(0);" @onclick="SetCurrentLocation"
+                       class="btn-primary has-state" data-current-location-btn disabled>
+                        <span class="m-icon">my_location</span>
+                        <span class="span">Current Location</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" @onclick="SetCurrentLocation"
+                       class="btn-primary has-state" data-current-location-btn>
+                        <span class="m-icon">my_location</span>
+                        <span class="span">Current Location</span>
+                    </a>
+                }
+            }
         </div>
 
     </div>
@@ -61,13 +91,13 @@
     <article class="container" data-container>
 
         <div class="content-left">
-            <PageCurrentWeather Data="_currentWeather"/> 
+            <PageCurrentWeather Data="_currentWeather"/>
 
             <!--
             - #FORECAST
             -->
 
-            <PageFiveDaysForecast Data="_fiveDayForecast" />
+            <PageFiveDaysForecast Data="_fiveDayForecast"/>
         </div>
 
 
@@ -77,7 +107,7 @@
             -->
 
             <section class="section highlights" aria-labelledby="highlights-label" data-highlights>
-                <PageTodayHightlights Data="_todayHightlights" CWeatherData="_currentWeather"/>
+                <PageTodayHightlights Data="_todayHighlights" CWeatherData="_currentWeather"/>
             </section>
 
 
@@ -86,13 +116,13 @@
             -->
 
             <section class="section hourly-forecast" aria-label="hourly forecast" data-hourly-forecast>
-                <PageTodayForecast Data="_todayForecast" />
+                <PageTodayForecast Data="_todayForecast"/>
             </section>
 
 
             <PageFooter/>
         </div>
-        <PageLoading />
+        <PageLoading/>
     </article>
 </main>
 <Page404/>

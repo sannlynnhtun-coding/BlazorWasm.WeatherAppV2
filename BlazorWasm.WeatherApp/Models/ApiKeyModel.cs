@@ -109,7 +109,7 @@ public class City
     public int sunset { get; set; }
 }
 
-public class TodayHightlights
+public class TodayHighlights
 {
     public Coord coord { get; set; }
     public List<List> list { get; set; }
@@ -182,5 +182,14 @@ public class SysToday
 public class WindToday : Wind
 {
     public double gust { get; set; }
+}
+
+public class CityInfo
+{
+    public string name { get; set; }
+    public double lat { get; set; }
+    public double lon { get; set; }
+    public string country { get; set; }
+    public string state { get; set; }
 }
 

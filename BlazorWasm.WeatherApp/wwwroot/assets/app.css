@@ -1,4 +1,17 @@
-﻿#blazor-error-ui {
+﻿:root {
+    --mud-typography-h6-size: 2rem !important;
+    --mud-typography-button-size: 1.2rem !important;;
+}
+
+.mud-input > input.mud-input-root, div.mud-input-slot.mud-input-root {
+    font-size: 1.5rem !important;;
+}
+
+.mud-input-control > .mud-input-control-input-container > .mud-input-label-inputcontrol {
+    font-size: 1.3rem !important;;
+}
+
+#blazor-error-ui {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -23,6 +36,6 @@
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}

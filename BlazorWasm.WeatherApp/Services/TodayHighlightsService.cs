@@ -12,11 +12,11 @@ public class TodayHighlightsService : ITodayHighlightsService
         _httpClient = httpClient;
     }
 
-    public async Task<TodayHightlights?> GetAsync(string appId, double lat, double lon)
+    public async Task<TodayHighlights?> GetAsync(string appId, double lat, double lon)
     {
         string requestUrl =
             $"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={appId}";
-        var response = await _httpClient.GetFromJsonAsync<TodayHightlights>(requestUrl);
+        var response = await _httpClient.GetFromJsonAsync<TodayHighlights>(requestUrl);
         return response;
     }
 }
