@@ -21,7 +21,6 @@
                     <li class="slider-item">
                         <div class="card card-sm slider-card">
                             <p class="body-3">@datetime.ToString("hh tt")</p>
-
                             <img src="assets/images/weather_icons/@(icon).png" width="48" height="48"
                                  loading="lazy" alt="@(description)"
                                  class="weather-icon" title="@(description)">
@@ -45,15 +44,11 @@
                     DateTime datetime = DateTimeOffset.FromUnixTimeSeconds(item.dt).LocalDateTime;
                     <li class="slider-item">
                         <div class="card card-sm slider-card">
-
                             <p class="body-3">@datetime.ToString("hh tt")</p>
-
                             <img src="assets/images/weather_icons/direction.png" width="48" height="48"
                                  loading="lazy" alt="direction"
                                  class="weather-icon" style="transform: rotate(@(WindDirection)deg);">
-
                             <p class="body-3">@(Convert.ToInt32(WindSpeed * 3.6)) km/h</p>
-
                         </div>
                     </li>
                 }
