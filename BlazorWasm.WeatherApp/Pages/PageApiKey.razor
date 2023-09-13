@@ -3,12 +3,12 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            <MudIcon Icon="@Icons.Material.Filled.Key" Class="mr-3 mb-n1"/>
+            <MudIcon Icon="@Icons.Material.Filled.Key" Class="mr-3 mb-n1" />
             Input Open Weather API Key
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField @bind-Value="ApiKey.AppId" Label="Api Key"/>
+        <MudTextField @bind-Value="ApiKey.AppId" Label="Api Key" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -17,11 +17,13 @@
 </MudDialog>
 
 @code {
-
     [CascadingParameter]
     MudDialogInstance? MudDialog { get; set; }
 
-    private ApiKeyModel ApiKey { get; set; } = new ApiKeyModel();
+    private ApiKeyModel ApiKey { get; set; } = new ApiKeyModel()
+    {
+        AppId = "76d9e5e2e526ee82d5ba0e18a74a8230"
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,6 +31,7 @@
         if (apiKey is not null)
             ApiKey = apiKey;
     }
+
     private void Cancel()
     {
         MudDialog?.Cancel();
@@ -41,5 +44,4 @@
             await SessionStorage.SetItemAsync("apiKey", ApiKey.AppId);
         MudDialog?.Close(DialogResult.Ok(ApiKey));
     }
-
 }
